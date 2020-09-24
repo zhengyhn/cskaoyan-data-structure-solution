@@ -19,28 +19,31 @@ ListNode* createList(int list[], int len) {
 
 class Solution {
  public:
-  ListNode *removeX(ListNode *head, int x) {
-    if (head == NULL) {
-      return head;
+  void removeMin(ListNode *hair) {
+    ListNode *prev = hair;
+    ListNode *p = prev->next;
+    ListNode *minPrev = prev;
+    ListNode *minCur = p;
+    while (p != NULL) {
+      if (p->value < minCur->value) {
+        minCur = p;
+        minPrev = prev;
+      }
+      prev = p;
+      p = prev->next;
     }
-    if (head->value == x) {
-      ListNode *p = head;
-      head = removeX(head->next, x);
-      delete p;
-      return head;
-    } else {
-      head->next = removeX(head->next, x);
-      return head;
-    }
+    minPrev->next = minCur->next;
+    delete minCur;
   }
 };
 
 int main() {
   Solution sln;
-  int list[] = {2, 2, 3, 2, 3};
+  int list[] = {0xffff, 1, 2, 2, 3, 2, 3};
   int len = sizeof(list) / sizeof(int);
-  ListNode *head = createList(list, len);
-  ListNode *root = sln.removeX(head, 2);
+  ListNode *hair = createList(list, len);
+  sln.removeMin(hair);
+  ListNode *root = hair->next;
   while (root != NULL) {
     cout << root->value << " ";
     root = root->next;

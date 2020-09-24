@@ -19,28 +19,29 @@ ListNode* createList(int list[], int len) {
 
 class Solution {
  public:
-  ListNode *removeX(ListNode *head, int x) {
-    if (head == NULL) {
-      return head;
-    }
-    if (head->value == x) {
-      ListNode *p = head;
-      head = removeX(head->next, x);
-      delete p;
-      return head;
-    } else {
-      head->next = removeX(head->next, x);
-      return head;
-    }
+  void removeInRange(ListNode *hair, int begin, int end) {
+    ListNode *prev = hair;
+    ListNode *p = hair->next;
+    while (p != NULL) {
+      if (p->value > begin && p->value < end) {
+        prev->next = p->next;
+        delete p;
+        p = prev->next;
+      } else {
+        prev = p;
+        p = prev->next;
+      }
+    } 
   }
 };
 
 int main() {
   Solution sln;
-  int list[] = {2, 2, 3, 2, 3};
+  int list[] = {0xffff, 1, 2, 2, 3, 2, 3};
   int len = sizeof(list) / sizeof(int);
-  ListNode *head = createList(list, len);
-  ListNode *root = sln.removeX(head, 2);
+  ListNode *hair = createList(list, len);
+  sln.removeInRange(hair, 2, 4);
+  ListNode *root = hair->next;
   while (root != NULL) {
     cout << root->value << " ";
     root = root->next;
